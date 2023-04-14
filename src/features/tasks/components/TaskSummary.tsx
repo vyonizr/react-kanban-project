@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-// Hapus  import {tasksState} from '../TaskAtoms'
-// Lakukan Import Selectors
 import {
   completedTasksSelector,
   uncompletedTasksSelector,
@@ -10,9 +8,6 @@ import {
 import type { Task, CSSProperties } from '../../../types'
 
 const TaskSummary = (): JSX.Element => {
-  // Hapus const tasks = useRecoilValue<Task[]>(tasksState)
-
-  // Mendapatkan tasks dari Selectors
   const completedTasks = useRecoilValue<Task[]>(completedTasksSelector)
 
   const uncompletedTasks = useRecoilValue<Task[]>(uncompletedTasksSelector)
@@ -20,7 +15,6 @@ const TaskSummary = (): JSX.Element => {
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Summary of Your Tasks</h1>
-      {/* Update layout */}
       <div style={styles.list}>
         <span className="material-icons">check_circle</span>
         {completedTasks.length <= 1 ? (
