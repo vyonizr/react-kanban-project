@@ -1,6 +1,8 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { RecoilRoot } from 'recoil'
 import SideMenuLayout from './layouts/SideMenuLayout'
+import TaskSummary from './features/tasks/components/TaskSummary'
 
 const router = createBrowserRouter([
   {
@@ -9,11 +11,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: (
-          <div style={{ display: 'flex' }}>
-            <h1>Home</h1>
-          </div>
-        ),
+        element: <TaskSummary />,
       },
       {
         path: 'task-list',
@@ -36,7 +34,11 @@ const router = createBrowserRouter([
 ])
 
 function App(): JSX.Element {
-  return <RouterProvider router={router} />
+  return (
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
+  )
 }
 
 export default App
