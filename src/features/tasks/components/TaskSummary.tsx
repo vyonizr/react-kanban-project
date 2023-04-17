@@ -17,19 +17,17 @@ const TaskSummary = (): JSX.Element => {
       <h1 style={styles.heading}>Summary of Your Tasks</h1>
       <div style={styles.list}>
         <span className="material-icons">check_circle</span>
-        {completedTasks.length <= 1 ? (
-          <h2>You have completed {completedTasks.length} task</h2>
-        ) : (
-          <h2>You have completed {completedTasks.length} tasks</h2>
-        )}
+        <h2>
+          You have completed {completedTasks.length}{' '}
+          {completedTasks.length <= 1 ? 'task' : 'tasks'}
+        </h2>
       </div>
       <div style={styles.list}>
         <span className="material-icons">list</span>
-        {uncompletedTasks.length <= 1 ? (
-          <h2>You still have {uncompletedTasks.length} task left</h2>
-        ) : (
-          <h2>You still have {uncompletedTasks.length} tasks left</h2>
-        )}
+        <h2>
+          You still have {uncompletedTasks.length}{' '}
+          {uncompletedTasks.length <= 1 ? 'task' : 'tasks'} left
+        </h2>
       </div>
       <div style={styles.links}>
         <Link to="/task_list" style={styles.link}>
