@@ -30,10 +30,10 @@ const TaskSummary = (): JSX.Element => {
         </h2>
       </div>
       <div style={styles.links}>
-        <Link to="/task_list" style={styles.link}>
+        <Link to="/task-list" style={styles.link}>
           See Your Task List
         </Link>
-        <Link to="/progress_management" style={styles.link}>
+        <Link to="/progress-management" style={styles.link}>
           Manage Your Task Progress
         </Link>
       </div>
