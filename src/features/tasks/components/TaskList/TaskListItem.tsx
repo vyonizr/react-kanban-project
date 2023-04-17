@@ -1,10 +1,5 @@
 import React from 'react'
-import type {
-  Task,
-  CSSProperties,
-  TaskProgressStatus,
-  TaskProgressId,
-} from '../../../../types'
+import type { Task, CSSProperties } from '../../../../types'
 import {
   TASK_PROGRESS_STATUS,
   TASK_PROGRESS_ID,
@@ -14,9 +9,7 @@ interface TaskListItemProps {
   task: Task
 }
 
-const getProgressCategory = (
-  progressOrder: TaskProgressId,
-): TaskProgressStatus => {
+const getProgressCategory = (progressOrder: Task['progressOrder']): string => {
   switch (progressOrder) {
     case TASK_PROGRESS_ID.NOT_STARTED:
       return TASK_PROGRESS_STATUS.NOT_STARTED

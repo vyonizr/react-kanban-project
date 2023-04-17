@@ -1,4 +1,3 @@
-import { TASK_PROGRESS_ID, TASK_PROGRESS_STATUS } from '../constants/app'
 export interface CSSProperties {
   [key: string]: React.CSSProperties
 }
@@ -8,9 +7,5 @@ export interface Task {
   title: string
   detail: string
   dueDate: string
-  progressOrder: TaskProgressId
+  progressOrder: 1 | 2 | 3 | 4
 }
-
-export type TaskProgressStatus = typeof TASK_PROGRESS_STATUS[keyof typeof TASK_PROGRESS_STATUS]
-
-export type TaskProgressId = typeof TASK_PROGRESS_ID[keyof typeof TASK_PROGRESS_ID]

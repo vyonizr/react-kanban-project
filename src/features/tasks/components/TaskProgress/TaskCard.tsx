@@ -1,12 +1,12 @@
 import React from 'react'
-import type { Task, CSSProperties, TaskProgressId } from '../../../../types'
+import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_ID } from '../../../../constants/app'
 interface TaskCardProps {
   task: Task
 }
 
 const getArrowPositionStyle = (
-  progressOrder: TaskProgressId,
+  progressOrder: Task['progressOrder'],
 ): React.CSSProperties => {
   const justifyContentValue: 'flex-end' | 'space-between' =
     progressOrder === TASK_PROGRESS_ID.NOT_STARTED
