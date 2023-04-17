@@ -7,5 +7,5 @@ export interface Task {
   title: string
   detail: string
   dueDate: string
-  progressOrder: 1 | 2 | 3 | 4
+  progressOrder: number
 }
