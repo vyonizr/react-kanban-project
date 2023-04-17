@@ -25,12 +25,12 @@ export const useTasksAction = (): useTaskActionType => {
       (task): boolean => task.id === taskId,
     )
     if (!movedTask) return
-    if (
+
+    const isOutOfBounds: boolean =
       movedTask.progressOrder + directionNumber < 1 ||
       movedTask.progressOrder + directionNumber > 4
-    ) {
-      return
-    }
+
+    if (isOutOfBounds) return
 
     const updatedOrder: number = movedTask.progressOrder + directionNumber
 
