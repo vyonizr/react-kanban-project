@@ -5,9 +5,7 @@ interface TaskCardProps {
   task: Task
 }
 
-const getArrowPositionStyle = (
-  progressOrder: Task['progressOrder'],
-): React.CSSProperties => {
+const getArrowPositionStyle = (progressOrder: number): React.CSSProperties => {
   const justifyContentValue: 'flex-end' | 'space-between' =
     progressOrder === TASK_PROGRESS_ID.NOT_STARTED
       ? 'flex-end'

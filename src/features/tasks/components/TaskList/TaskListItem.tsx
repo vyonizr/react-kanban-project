@@ -9,7 +9,7 @@ interface TaskListItemProps {
   task: Task
 }
 
-const getProgressCategory = (progressOrder: Task['progressOrder']): string => {
+const getProgressCategory = (progressOrder: number): string => {
   switch (progressOrder) {
     case TASK_PROGRESS_ID.NOT_STARTED:
       return TASK_PROGRESS_STATUS.NOT_STARTED
