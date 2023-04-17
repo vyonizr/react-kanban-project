@@ -1,15 +1,17 @@
 import React from 'react'
-import type { Task, CSSProperties } from '../../../../types'
-
+import type { Task, CSSProperties, TaskProgressId } from '../../../../types'
+import { TASK_PROGRESS_ID } from '../../../../constants/app'
 interface TaskCardProps {
   task: Task
 }
 
 const getArrowPositionStyle = (
-  progressOrder: 1 | 2 | 3 | 4,
+  progressOrder: TaskProgressId,
 ): React.CSSProperties => {
   const justifyContentValue: 'flex-end' | 'space-between' =
-    progressOrder === 1 ? 'flex-end' : 'space-between'
+    progressOrder === TASK_PROGRESS_ID.NOT_STARTED
+      ? 'flex-end'
+      : 'space-between'
   return {
     display: 'flex',
     justifyContent: justifyContentValue,
@@ -33,10 +35,10 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
         <p>Due on {task.dueDate}</p>
       </div>
       <div style={getArrowPositionStyle(task.progressOrder)}>
-        {task.progressOrder !== 1 && (
+        {task.progressOrder !== TASK_PROGRESS_ID.NOT_STARTED && (
           <button className="material-icons">chevron_left</button>
         )}
-        {task.progressOrder !== 4 && (
+        {task.progressOrder !== TASK_PROGRESS_ID.COMPLETED && (
           <button className="material-icons">chevron_right</button>
         )}
       </div>
