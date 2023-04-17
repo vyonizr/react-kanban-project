@@ -32,7 +32,7 @@ const getArrowPositionStyle = (progressOrder: number): React.CSSProperties => {
 }
 
 const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
-  const { completeTask } = useTasksAction()
+  const { completeTask, moveTaskCard } = useTasksAction()
 
   return (
     <div style={styles.taskCard}>
@@ -59,10 +59,20 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
       </div>
       <div style={getArrowPositionStyle(task.progressOrder)}>
         {task.progressOrder !== TASK_PROGRESS_ID.NOT_STARTED && (
-          <button className="material-icons">chevron_left</button>
+          <button
+            className="material-icons"
+            onClick={(): void => moveTaskCard(task.id, -1)}
+          >
+            chevron_left
+          </button>
         )}
         {task.progressOrder !== TASK_PROGRESS_ID.COMPLETED && (
-          <button className="material-icons">chevron_right</button>
+          <button
+            className="material-icons"
+            onClick={(): void => moveTaskCard(task.id, 1)}
+          >
+            chevron_right
+          </button>
         )}
       </div>
     </div>
