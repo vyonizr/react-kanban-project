@@ -1,6 +1,7 @@
 import { atom } from 'recoil'
 import type { Task } from '../../types'
 import { AtomKeys } from '../../constants/recoilKeys'
+import { TASK_FILTER } from '../../constants/app'
 
 export const tasksState = atom<Task[]>({
   key: AtomKeys.TASKS,
@@ -48,4 +49,9 @@ export const tasksState = atom<Task[]>({
       progressOrder: 4,
     },
   ],
+})
+
+export const taskFilterState = atom({
+  key: AtomKeys.TASK_FILTER,
+  default: TASK_FILTER.ALL,
 })
