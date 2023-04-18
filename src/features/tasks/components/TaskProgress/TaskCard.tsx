@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import TaskMenu from '../shared/TaskMenu'
 import { useTasksAction } from '../../hooks/Tasks'
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_ID } from '../../../../constants/app'
@@ -33,6 +34,8 @@ const getArrowPositionStyle = (progressOrder: number): React.CSSProperties => {
 
 const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
   const { completeTask, moveTaskCard } = useTasksAction()
+  // Ditambahkan
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   return (
     <div style={styles.taskCard}>
@@ -46,7 +49,13 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
         >
           check_circle
         </div>
-        <div className="material-icons" style={styles.menuIcon}>
+        <div
+          className="material-icons"
+          style={styles.menuIcon}
+          onClick={(): void => {
+            setIsMenuOpen(true)
+          }}
+        >
           more_vert
         </div>
       </div>
@@ -75,6 +84,7 @@ const TaskCard = ({ task }: TaskCardProps): JSX.Element => {
           </button>
         )}
       </div>
+      {isMenuOpen && <TaskMenu task={task} setIsMenuOpen={setIsMenuOpen} />}
     </div>
   )
 }

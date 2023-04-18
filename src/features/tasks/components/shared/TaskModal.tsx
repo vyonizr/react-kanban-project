@@ -7,6 +7,11 @@ interface TaskModalProps {
   headingTitle: string
   type: string
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
+  setIsMenuOpen?: Dispatch<SetStateAction<boolean>>
+  taskId?: number
+  defaultTitle?: string
+  defaultDetail?: string
+  defaultDueDate?: string
   defaultProgressOrder: number
 }
 
@@ -14,6 +19,11 @@ const TaskModal = ({
   headingTitle,
   type,
   setIsModalOpen,
+  setIsMenuOpen,
+  taskId,
+  defaultTitle,
+  defaultDetail,
+  defaultDueDate,
   defaultProgressOrder,
 }: TaskModalProps): JSX.Element => {
   return (
@@ -32,8 +42,13 @@ const TaskModal = ({
       </div>
       <TaskForm
         type={type}
-        defaultProgressOrder={defaultProgressOrder}
         setIsModalOpen={setIsModalOpen}
+        setIsMenuOpen={setIsMenuOpen}
+        taskId={taskId}
+        defaultTitle={defaultTitle}
+        defaultDetail={defaultDetail}
+        defaultDueDate={defaultDueDate}
+        defaultProgressOrder={defaultProgressOrder}
       />
     </div>
   )
