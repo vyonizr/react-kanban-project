@@ -1,5 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TaskCard from './TaskCard'
+import TaskModal from '../shared/TaskModal'
+import {
+  TASK_MODAL_TYPE,
+  TASK_PROGRESS_ID,
+  TASK_PROGRESS_STATUS,
+} from '../../../../constants/app'
 import type { Task, CSSProperties } from '../../../../types'
 
 interface TaskColumnProps {
@@ -7,12 +13,35 @@ interface TaskColumnProps {
   tasks: Task[]
 }
 
+const getProgressOrder = (columnTitle: string): number => {
+  switch (columnTitle) {
+    case TASK_PROGRESS_STATUS.NOT_STARTED:
+      return TASK_PROGRESS_ID.NOT_STARTED
+    case TASK_PROGRESS_STATUS.IN_PROGRESS:
+      return TASK_PROGRESS_ID.IN_PROGRESS
+    case TASK_PROGRESS_STATUS.WAITING:
+      return TASK_PROGRESS_ID.WAITING
+    case TASK_PROGRESS_STATUS.COMPLETED:
+      return TASK_PROGRESS_ID.COMPLETED
+    default:
+      return TASK_PROGRESS_ID.NOT_STARTED
+  }
+}
+
 const TaskColumn = ({ columnTitle, tasks }: TaskColumnProps): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
   return (
     <div style={styles.categoryColumn}>
       <div style={styles.columnTitleWrapper}>
         <h2 style={styles.categoryTitle}>{columnTitle}</h2>
-        <div className="material-icons" style={styles.plusIcon}>
+        <div
+          className="material-icons"
+          style={styles.plusIcon}
+          onClick={(): void => {
+            setIsModalOpen(true)
+          }}
+        >
           add
         </div>
       </div>
@@ -21,6 +50,14 @@ const TaskColumn = ({ columnTitle, tasks }: TaskColumnProps): JSX.Element => {
           return <TaskCard key={task.id} task={task} />
         })}
       </div>
+      {isModalOpen && (
+        <TaskModal
+          headingTitle="Add your task"
+          type={TASK_MODAL_TYPE.ADD}
+          setIsModalOpen={setIsModalOpen}
+          defaultProgressOrder={getProgressOrder(columnTitle)}
+        />
+      )}
     </div>
   )
 }
