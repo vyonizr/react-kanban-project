@@ -48,10 +48,7 @@ const TaskMenu = ({ task, setIsMenuOpen }: TaskMenuProps): JSX.Element => {
           type={TASK_MODAL_TYPE.EDIT}
           setIsModalOpen={setIsModalOpen}
           setIsMenuOpen={setIsMenuOpen}
-          taskId={task.id}
-          defaultTitle={task.title}
-          defaultDetail={task.detail}
-          defaultDueDate={task.dueDate}
+          task={task}
           defaultProgressOrder={task.progressOrder}
         />
       )}

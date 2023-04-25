@@ -4,16 +4,13 @@ import {
   TASK_PROGRESS_STATUS,
   TASK_MODAL_TYPE,
 } from '../../../../constants/app'
-import type { CSSProperties } from '../../../../types'
+import type { Task, CSSProperties } from '../../../../types'
 import type { Dispatch, SetStateAction } from 'react'
 import { useTasksAction } from '../../hooks/Tasks'
 
 interface TaskFormProps {
   type: string
-  taskId?: number
-  defaultTitle?: string
-  defaultDetail?: string
-  defaultDueDate?: string
+  task?: Task
   defaultProgressOrder: number
   setIsModalOpen: Dispatch<SetStateAction<boolean>>
   setIsMenuOpen?: Dispatch<SetStateAction<boolean>>
@@ -21,19 +18,16 @@ interface TaskFormProps {
 
 const TaskForm = ({
   type,
-  taskId,
-  defaultTitle = '',
-  defaultDetail = '',
-  defaultDueDate = '',
+  task,
   defaultProgressOrder,
   setIsModalOpen,
   setIsMenuOpen,
 }: TaskFormProps): JSX.Element => {
-  const [title, setTitle] = useState<string>(defaultTitle)
-  const [detail, setDetail] = useState<string>(defaultDetail)
-  const [dueDate, setDueDate] = useState<string>(defaultDueDate)
+  const [title, setTitle] = useState<string>(task ? task.title : '')
+  const [detail, setDetail] = useState<string>(task ? task.detail : '')
+  const [dueDate, setDueDate] = useState<string>(task ? task.dueDate : '')
   const [progressOrder, setProgressOrder] = useState<number>(
-    defaultProgressOrder,
+    task ? task.progressOrder : defaultProgressOrder
   )
 
   const { addTask, editTask } = useTasksAction()
@@ -44,10 +38,10 @@ const TaskForm = ({
       setIsModalOpen(false)
     }
 
-    if (!taskId) return
+    if (!task) return
 
     if (type === TASK_MODAL_TYPE.EDIT) {
-      editTask(taskId, title, detail, dueDate, progressOrder)
+      editTask(task.id, title, detail, dueDate, progressOrder)
       setIsModalOpen(false)
       if (setIsMenuOpen) {
         setIsMenuOpen(false)
