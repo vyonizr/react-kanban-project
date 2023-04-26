@@ -1,12 +1,9 @@
-import React, { useState } from 'react'
-import TaskMenu from '../shared/TaskMenu'
+import React, { useState, lazy, Suspense } from 'react'
 import { useTasksAction } from '../../hooks/Tasks'
 import type { Task, CSSProperties } from '../../../../types'
-import {
-  TASK_PROGRESS_STATUS,
-  TASK_PROGRESS_ID,
-} from '../../../../constants/app'
+import { TASK_PROGRESS_STATUS, TASK_PROGRESS_ID } from '../../../../constants/app'
 
+const TaskMenu = lazy(() => import('../shared/TaskMenu'))
 interface TaskListItemProps {
   task: Task
 }
@@ -62,9 +59,7 @@ const TaskListItem = ({ task }: TaskListItemProps): JSX.Element => {
       </div>
       <div style={styles.tableBodyDetail}>{task.detail}</div>
       <div style={styles.tableBodyDueDate}>{task.dueDate}</div>
-      <div style={styles.tableBodyprogress}>
-        {getProgressCategory(task.progressOrder)}
-      </div>
+      <div style={styles.tableBodyprogress}>{getProgressCategory(task.progressOrder)}</div>
       <div>
         <span
           className="material-icons"
@@ -76,7 +71,11 @@ const TaskListItem = ({ task }: TaskListItemProps): JSX.Element => {
           more_horiz
         </span>
       </div>
-      {isMenuOpen && <TaskMenu task={task} setIsMenuOpen={setIsMenuOpen} />}
+      {isMenuOpen && (
+        <Suspense fallback={<div>Loading</div>}>
+          <TaskMenu task={task} setIsMenuOpen={setIsMenuOpen} />
+        </Suspense>
+      )}
     </div>
   )
 }
