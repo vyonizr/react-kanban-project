@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, Suspense, lazy } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { tasksState, taskFilterState } from '../../TaskAtoms'
-import TaskListItem from './TaskListItem'
-import TaskModal from '../shared/TaskModal'
-import TaskFilterMenu from '../shared/TaskFilterMenu'
+import { taskFilterState } from '../../TaskAtoms'
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_ID, TASK_MODAL_TYPE } from '../../../../constants/app'
 import { filteredTasksSelector } from '../../TaskSelectors'
+const TaskListItem = lazy(() => import('./TaskListItem'))
+const TaskModal = lazy(() => import('../shared/TaskModal'))
+const TaskFilterMenu = lazy(() => import('../shared/TaskFilterMenu'))
 
 const TaskList = (): JSX.Element => {
   const tasks: Task[] = useRecoilValue(filteredTasksSelector)
@@ -35,10 +35,9 @@ const TaskList = (): JSX.Element => {
           <span className="material-icons">sort</span>Filter tasks
         </button>
         {isMenuOpen && (
-          <TaskFilterMenu
-            setTaskFilter={setTaskFilter}
-            setIsMenuOpen={setIsMenuOpen}
-          />
+          <Suspense fallback={<div>Loading</div>}>
+            <TaskFilterMenu setTaskFilter={setTaskFilter} setIsMenuOpen={setIsMenuOpen} />
+          </Suspense>
         )}
       </div>
       <div>
@@ -49,16 +48,22 @@ const TaskList = (): JSX.Element => {
           <div style={styles.tableHeaderProgress}>Progress</div>
         </div>
         {tasks.map((task: Task) => {
-          return <TaskListItem task={task} key={task.id} />
+          return (
+            <Suspense fallback={<div>Loading</div>} key={task.id}>
+              <TaskListItem task={task} />
+            </Suspense>
+          )
         })}
       </div>
       {isModalOpen && (
-        <TaskModal
-          headingTitle="Add your task"
-          type={TASK_MODAL_TYPE.ADD}
-          setIsModalOpen={setIsModalOpen}
-          defaultProgressOrder={TASK_PROGRESS_ID.NOT_STARTED}
-        />
+        <Suspense fallback={<div>Loading</div>}>
+          <TaskModal
+            headingTitle="Add your task"
+            type={TASK_MODAL_TYPE.ADD}
+            setIsModalOpen={setIsModalOpen}
+            defaultProgressOrder={TASK_PROGRESS_ID.NOT_STARTED}
+          />
+        </Suspense>
       )}
     </div>
   )

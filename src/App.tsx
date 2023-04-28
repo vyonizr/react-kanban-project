@@ -1,27 +1,43 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
-import SideMenuLayout from './layouts/SideMenuLayout'
-import TaskSummary from './features/tasks/components/TaskSummary'
-import TaskList from './features/tasks/components/TaskList/TaskList'
-import TaskProgress from './features/tasks/components/TaskProgress/TaskProgress'
+const SideMenuLayout = lazy(() => import('./layouts/SideMenuLayout'))
+const TaskSummary = lazy(() => import('./features/tasks/components/TaskSummary'))
+const TaskList = lazy(() => import('./features/tasks/components/TaskList/TaskList'))
+const TaskProgress = lazy(() => import('./features/tasks/components/TaskProgress/TaskProgress'))
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SideMenuLayout />,
+    element: (
+      <Suspense fallback={<div>Loading</div>}>
+        <SideMenuLayout />
+      </Suspense>
+    ),
     children: [
       {
         path: '/',
-        element: <TaskSummary />,
+        element: (
+          <Suspense fallback={<div>Loading</div>}>
+            <TaskSummary />
+          </Suspense>
+        ),
       },
       {
         path: 'task-list',
-        element: <TaskList />,
+        element: (
+          <Suspense fallback={<div>Loading</div>}>
+            <TaskList />
+          </Suspense>
+        ),
       },
       {
         path: 'task-progress',
-        element: <TaskProgress />,
+        element: (
+          <Suspense fallback={<div>Loading</div>}>
+            <TaskProgress />
+          </Suspense>
+        ),
       },
     ],
   },

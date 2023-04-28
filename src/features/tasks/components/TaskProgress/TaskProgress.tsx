@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { useRecoilValue } from 'recoil'
 import {
   notStartedTasksSelector,
@@ -6,7 +6,7 @@ import {
   waitingTasksSelector,
   completedTasksSelector,
 } from '../../TaskSelectors'
-import TaskColumn from './TaskColumn'
+const TaskColumn = lazy(() => import('./TaskColumn'))
 import type { Task, CSSProperties } from '../../../../types'
 import { TASK_PROGRESS_STATUS } from '../../../../constants/app'
 
@@ -23,22 +23,12 @@ const TaskProgress = (): JSX.Element => {
     <div style={styles.container}>
       <h1 style={styles.heading}>Task Progress</h1>
       <div style={styles.taskCategories}>
-        <TaskColumn
-          columnTitle={TASK_PROGRESS_STATUS.NOT_STARTED}
-          tasks={notStartedTasks}
-        />
-        <TaskColumn
-          columnTitle={TASK_PROGRESS_STATUS.IN_PROGRESS}
-          tasks={inProgressTasks}
-        />
-        <TaskColumn
-          columnTitle={TASK_PROGRESS_STATUS.WAITING}
-          tasks={waitingTasks}
-        />
-        <TaskColumn
-          columnTitle={TASK_PROGRESS_STATUS.COMPLETED}
-          tasks={completedTasks}
-        />
+        <Suspense fallback={<div>Loading</div>}>
+          <TaskColumn columnTitle={TASK_PROGRESS_STATUS.NOT_STARTED} tasks={notStartedTasks} />
+          <TaskColumn columnTitle={TASK_PROGRESS_STATUS.IN_PROGRESS} tasks={inProgressTasks} />
+          <TaskColumn columnTitle={TASK_PROGRESS_STATUS.WAITING} tasks={waitingTasks} />
+          <TaskColumn columnTitle={TASK_PROGRESS_STATUS.COMPLETED} tasks={completedTasks} />
+        </Suspense>
       </div>
     </div>
   )

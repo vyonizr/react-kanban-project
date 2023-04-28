@@ -1,13 +1,9 @@
-import React, { useState } from 'react'
-import TaskCard from './TaskCard'
-import TaskModal from '../shared/TaskModal'
-import {
-  TASK_MODAL_TYPE,
-  TASK_PROGRESS_ID,
-  TASK_PROGRESS_STATUS,
-} from '../../../../constants/app'
+import React, { Suspense, lazy, useState } from 'react'
+import { TASK_MODAL_TYPE, TASK_PROGRESS_ID, TASK_PROGRESS_STATUS } from '../../../../constants/app'
 import type { Task, CSSProperties } from '../../../../types'
 
+const TaskCard = lazy(() => import('./TaskCard'))
+const TaskModal = lazy(() => import('../shared/TaskModal'))
 interface TaskColumnProps {
   columnTitle: string
   tasks: Task[]
@@ -47,16 +43,22 @@ const TaskColumn = ({ columnTitle, tasks }: TaskColumnProps): JSX.Element => {
       </div>
       <div>
         {tasks.map((task: Task) => {
-          return <TaskCard key={task.id} task={task} />
+          return (
+            <Suspense fallback={<div>Loading</div>} key={task.id}>
+              <TaskCard task={task} />
+            </Suspense>
+          )
         })}
       </div>
       {isModalOpen && (
-        <TaskModal
-          headingTitle="Add your task"
-          type={TASK_MODAL_TYPE.ADD}
-          setIsModalOpen={setIsModalOpen}
-          defaultProgressOrder={getProgressOrder(columnTitle)}
-        />
+        <Suspense fallback={<div>Loading</div>}>
+          <TaskModal
+            headingTitle="Add your task"
+            type={TASK_MODAL_TYPE.ADD}
+            setIsModalOpen={setIsModalOpen}
+            defaultProgressOrder={getProgressOrder(columnTitle)}
+          />
+        </Suspense>
       )}
     </div>
   )
